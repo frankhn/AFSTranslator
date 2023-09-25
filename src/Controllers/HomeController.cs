@@ -1,22 +1,35 @@
-﻿using System.Diagnostics;
+﻿using System.Net;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using AfsTranslator.Models;
+using AfsTranslator.src.Services.Interfaces.IServices;
+using AfsTranslator.src.Repositories.Models;
+using System.Text.Json;
+using System.Text;
+using AfsTranslator.src.Repositories.Dtos;
+using System.Text.Json.Serialization;
+using System.Net.Http.Json;
+using AutoMapper;
 
 namespace AfsTranslator.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    private ITranslationLogService _translationService;
+
+    public HomeController(ITranslationLogService translationLogService)
     {
-        _logger = logger;
+        _translationService = translationLogService;
+        
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        List<TranslationLogDto> translationLogs = _translationService.GetAll();
+        return View(translationLogs);
     }
+
 
     public IActionResult Privacy()
     {
