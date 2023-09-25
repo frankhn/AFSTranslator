@@ -10,6 +10,21 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
+    <None Remove="src\" />
+    <None Remove="src\Controllers\" />
+    <None Remove="src\Repositories\" />
+    <None Remove="src\Services\" />
+    <None Remove="src\Utils\" />
+    <None Remove="src\Validations\" />
+    <None Remove="src\Services\Interfaces\" />
+    <None Remove="src\Services\Interfaces\IServices\" />
+    <None Remove="src\Services\Interfaces\IRepository\" />
+    <None Remove="src\Repositories\Dtos\" />
+    <None Remove="src\Repositories\Models\" />
+    <None Remove="Views\" />
+    <None Remove="Views\Models\" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
 
@@ -19,6 +34,27 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\Controllers\" />
+    <Folder Include="src\Repositories\" />
+    <Folder Include="src\Services\" />
+    <Folder Include="src\Utils\" />
+    <Folder Include="src\Validations\" />
+    <Folder Include="src\Services\Interfaces\" />
+    <Folder Include="src\Services\Interfaces\IServices\" />
+    <Folder Include="src\Services\Interfaces\IRepository\" />
+    <Folder Include="src\Repositories\Dtos\" />
+    <Folder Include="src\Repositories\Models\" />
+    <Folder Include="Views\" />
+    <Folder Include="Views\Models\" />
+  </ItemGroup>
 </Project>
