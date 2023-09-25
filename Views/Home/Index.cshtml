@@ -1,9 +1,103 @@
-﻿@{
+﻿@model List<AfsTranslator.src.Repositories.Dtos.TranslationLogDto>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="container">
+        <div class="row">
+            @*Translation box*@
+            <div class="col">
+                <h1>Translate a text</h1>
+                <form id="translatingTextForm" method="post">
+                    <div>
+                        <label for="translateText">Text to translate</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="translateText" id="translateTextData" rows="2"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-dark">Submit</button>
+                    </div>
+                </form>
+            </div>
 
+
+            @*List of all translations*@
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="">
+        <table class="table table-striped">
+            <thread>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Original</th>
+                    <th scope="col">translated</th>
+                    <th scope="col">Translation</th>
+                    <th scope="col">Timestamp</th>
+                </tr>
+            </thread>
+            @foreach (var translationLog in Model)
+            {
+                <tbody>
+                    <tr>
+                        <th scope="row">@translationLog.Id</th>
+                        <td>@translationLog.OriginalText</td>
+                        <td>@translationLog.TranslatedText</td>
+                        <td>@translationLog.Translation</td>
+                        <td>@translationLog.Timestamp</td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+<script>
+    document.querySelector('#translatingTextForm').addEventListener('submit', function (e) {
+        e.preventDefault()
+        const textToTranslate = document.getElementById('translateTextData').value;
+        
+        fetch('/api/TranslationLog', {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(textToTranslate)
+        })
+            .then(response => {
+                if (response.ok) {
+                    response.json().then(data => {
+
+                    const tableBody = document.querySelector('tbody');
+                    console.log(data,"--------[[[[", "Response");
+                    // Create a new table row
+                    const newRow = document.createElement('tr');
+
+                    // Populate the row with data
+                    newRow.innerHTML = `
+                            <th scope="row">${data.id}</th>
+                            <td>${data.originalText}</td>
+                            <td>${data.translatedText}</td>
+                            <td>${data.translation}</td>
+                            <td>${data.timestamp}</td>
+                        `;
+
+                    // Append the new row to the table
+                    tableBody.appendChild(newRow);
+
+                    // Clear the textarea
+                        document.getElementById('translateTextData').value = '';
+                    })
+                } else {
+                    // Handle error (e.g., display error message)
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });</script>
