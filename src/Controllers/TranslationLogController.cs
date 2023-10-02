@@ -37,8 +37,6 @@ namespace AfsTranslator.src.Controllers
         {
             try
             {
-                //_translation.Create(value);
-                Console.WriteLine(value + "---------------------------/////////////");
                 TranslationLogDto translation = await Translate.GetExternalTranslatorAsync(value);
                 _translationLog.Create(translation);
                 return Ok(translation);
