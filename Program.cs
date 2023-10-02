@@ -8,19 +8,21 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("translator") ?? throw new InvalidOperationException("Connection string 'translator' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseNpgsql(connectionString));
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 
-// Add services to the container.
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618
 builder.Services.AddControllersWithViews()
     .AddFluentValidation(c =>
     c.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
@@ -36,7 +38,6 @@ builder.Services.AddAutoMapper((config) => { }, AppDomain.CurrentDomain.GetAssem
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -46,8 +47,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+   app.UseHsts();
 }
 
 app.UseHttpsRedirection();
